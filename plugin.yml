@@ -1,0 +1,8 @@
+name: FireworkParticleExamplePlugin
+author: RarkHopper
+api: 4.10.0
+load: STARTUP
+version: 1.0.0
+main: rarkhopper\firework_particle_example\FireworkParticleExamplePlugin
+virions:
+  - FireworkParticle
