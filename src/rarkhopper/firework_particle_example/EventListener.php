@@ -9,5 +9,6 @@ use pocketmine\event\Listener;
 class EventListener implements Listener{
 	public function onShotBow(EntityShootBowEvent $ev):void{
 		$ev->setProjectile(new FireworkEgg($ev->getProjectile()->getLocation(), $ev->getEntity()));
+		$ev->getProjectile()->setMotion($ev->getEntity()->getDirectionVector()->multiply(5));
 	}
 }

@@ -13,7 +13,14 @@ use pocketmine\world\World;
 
 class FireworkParticleExamplePlugin extends PluginBase implements Listener{
 	protected function onEnable():void{
-		$this->getServer()->getCommandMap()->register($this->getName(), new FireworkSettingCommand('firework_setting'), 'this command can be used to change firework colors and more :)');
+		$this->getServer()->getCommandMap()->register(
+			$this->getName(),
+			new FireworkSettingCommand(
+				'firework_setting',
+				'this command can be used to change firework colors and more :)'
+			),
+			'firework_setting'
+		);
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener, $this);
 		EntityFactory::getInstance()->register(
 			FireworkEgg::class,

@@ -15,20 +15,23 @@ class FireworkInfoInputForm implements Form{
 		if($data === null or !is_array($data)) return;
 		$type = array_values(FireworkTypeEnum::getAll())[(int) $data[0]];
 		$colors_arr = [];
+		$fades_arr = [];
 		
-		for($i = 1; $i < 7; ++$i){
-			if((int) $data[$i] === 0) continue;
-			$colors_arr[] = array_values(FireworkColorEnum::getAll())[(int) $data[0]];
+		for($i = 1; $i < 4; ++$i){
+			$colors_arr[] = array_values(FireworkColorEnum::getAll())[(int) $data[$i]];
 		}
 		
-		if(count($colors_arr) === 0){
-			$colors_arr[] = FireworkColorEnum::randomColor();
+		for($i = 4; $i < 7; ++$i){
+			$fades_arr[] = array_values(FireworkColorEnum::getAll())[(int) $data[$i]];
 		}
+		
 		$colors = new FireworkColor(...$colors_arr);
+		$fades = new FireworkColor(...$fades_arr);
 		FireworkInfo::getInstance()->set(
 			new BurstPattern(
 				$type,
 				$colors,
+				$fades,
 				$data[7],
 				$data[8]
 			)
@@ -57,13 +60,7 @@ class FireworkInfoInputForm implements Form{
 		return [
 			'type' => 'dropdown',
 			'text' => 'type',
-			'options' => [
-				'SMALL_SPHERE',
-				'HUGE_SPHERE',
-				'STAR',
-				'CREEPER_HEAD',
-				'BURST'
-			],
+			'options' => array_keys(FireworkTypeEnum::getAll()),
 			'default' => 0
 		];
 	}
@@ -72,24 +69,7 @@ class FireworkInfoInputForm implements Form{
 		return [
 			'type' => 'step_slider',
 			'text' => 'color',
-			'steps' => [
-				'無し',
-				'BLACK',
-				'RED',
-				'DARK_GREEN',
-				'BROWN',
-				'BLUE',
-				'DARK_PURPLE',
-				'DARK_AQUA',
-				'GRAY',
-				'DARK_GRAY',
-				'GREEN',
-				'YELLOW',
-				'LIGHT_AQUA',
-				'DARK_PINK',
-				'GOLD',
-				'WHITE'
-			],
+			'steps' => array_keys(FireworkColorEnum::getAll()),
 			'default' => 0
 		];
 	}
@@ -98,24 +78,7 @@ class FireworkInfoInputForm implements Form{
 		return [
 			'type' => 'step_slider',
 			'text' => 'fade',
-			'steps' => [
-				'無し',
-				'BLACK',
-				'RED',
-				'DARK_GREEN',
-				'BROWN',
-				'BLUE',
-				'DARK_PURPLE',
-				'DARK_AQUA',
-				'GRAY',
-				'DARK_GRAY',
-				'GREEN',
-				'YELLOW',
-				'LIGHT_AQUA',
-				'DARK_PINK',
-				'GOLD',
-				'WHITE'
-			],
+			'steps' => array_keys(FireworkColorEnum::getAll()),
 			'default' => 0
 		];
 	}
@@ -124,15 +87,15 @@ class FireworkInfoInputForm implements Form{
 		return [
 			'type' => 'toggle',
 			'text' => 'flicker',
-			'default' => false
+			'default' => (bool) FireworkInfo::getInstance()->get()->getFlicker()
 		];
 	}
 	
 	protected function getTrailToggle():array{
 		return [
 			'type' => 'toggle',
-			'text' => 'flicker',
-			'default' => false
+			'text' => 'trail',
+			'default' => (bool) FireworkInfo::getInstance()->get()->getTrail()
 		];
 	}
 }
