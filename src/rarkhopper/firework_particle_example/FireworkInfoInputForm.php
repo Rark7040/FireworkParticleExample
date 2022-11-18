@@ -33,7 +33,8 @@ class FireworkInfoInputForm implements Form{
 				$colors,
 				$fades,
 				$data[7],
-				$data[8]
+				$data[8],
+				$data[9]
 			)
 		);
 	}
@@ -51,7 +52,8 @@ class FireworkInfoInputForm implements Form{
 				$this->getFadeColors(), //5
 				$this->getFadeColors(), //6
 				$this->getFlickerToggle(), //7
-				$this->getTrailToggle() //8
+				$this->getTrailToggle(), //8
+				$this->getSoundToggle() //9
 			]
 		];
 	}
@@ -87,7 +89,7 @@ class FireworkInfoInputForm implements Form{
 		return [
 			'type' => 'toggle',
 			'text' => 'flicker',
-			'default' => (bool) FireworkInfo::getInstance()->get()->getFlicker()
+			'default' => FireworkInfo::getInstance()->get()->isEnabledFlicker()
 		];
 	}
 	
@@ -95,7 +97,15 @@ class FireworkInfoInputForm implements Form{
 		return [
 			'type' => 'toggle',
 			'text' => 'trail',
-			'default' => (bool) FireworkInfo::getInstance()->get()->getTrail()
+			'default' => FireworkInfo::getInstance()->get()->isEnabledTrail()
+		];
+	}
+	
+	protected function getSoundToggle():array{
+		return [
+			'type' => 'toggle',
+			'text' => 'sound',
+			'default' => FireworkInfo::getInstance()->get()->isEnabledSound()
 		];
 	}
 }
